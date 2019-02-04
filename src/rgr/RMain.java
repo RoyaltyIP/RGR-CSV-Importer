@@ -1,0 +1,890 @@
+package rgr;
+
+import java.io.FileReader;
+
+import java.io.IOException;
+import java.util.Calendar;
+
+
+
+import au.com.bytecode.opencsv.CSVReader;
+import rgr.ent.ParagonListing;
+
+public class RMain {
+
+	private static java.util.TreeMap<String, ParagonListing> all_listings;
+	private static java.util.TreeMap<String, String> field_names;
+	private static String[] field_keys;
+	private static java.util.TreeSet<String> fields_active;
+	
+	private static java.util.TreeSet<String> all_fields;
+	
+	///Users/john/git/RGR-CSV-IMPORTER/spreadsheets
+	
+	public static void main(String[] args) {
+		fields_active = new java.util.TreeSet<String>();
+
+		// String [] file_names = listLocalFiles("/Users/john/git/RGR-CSV-IMPORTER/spreadsheets/july-23-2018");
+		 //String [] file_names = listLocalFiles("/Users/john/git/RGR-CSV-IMPORTER/spreadsheets/july-19-2018");
+		 String [] file_names = listLocalFiles("/Users/john/git/RGR-CSV-IMPORTER/spreadsheets/8-jan-2019-b");
+		
+		 
+
+		 try {
+			 for(int i =0; i<file_names.length; i ++) {
+				
+				 //System.out.println(file_names[i]);
+				 DoImport(file_names[i]);
+				 //DoImport("/home/john/git/RGR-CVS-Importer/spreadsheets/Dec-11-2018/jan-28-to-feb-2-2016.csv");
+				 //DoImport("/home/john/git/RGR-CVS-Importer/spreadsheets/Dec-11-2018/jan-28-to-feb-2-2016-BBB.csv");
+			 	//DoImport("/home/john/git/RGR-CVS-Importer/spreadsheets/Dec-11-2018/march-13-to-march-16-2016.csv");
+			 	 //DoImport("/home/john/git/RGR-CVS-Importer/spreadsheets/Dec-11-2018_b/march-16-to-march-20-2016.csv");
+			 	//DoImport("/home/john/git/RGR-CVS-Importer/spreadsheets/Dec-11-2018/aug-19-to-aug-28-2016.csv");
+			 	
+			 	Thread.sleep(1000);
+			 }
+		 } catch (InterruptedException e) {			
+				e.printStackTrace();
+		 }
+		 
+		 /*testNotIncluded(); */
+		 
+	 } 
+		 
+	
+	 
+	public static String[] listLocalFiles(String path) {
+		java.util.HashSet<String> list_of_files =new java.util.HashSet<String>();
+		java.io.File folder = new java.io.File(path);
+		java.io.File[] listOfFiles = folder.listFiles();
+		
+		for(int i =0; i<listOfFiles.length; i ++) {
+			if(listOfFiles[i].getName().toLowerCase().endsWith(".csv")) {
+				list_of_files.add(path+"/"+listOfFiles[i].getName());
+			}
+		}
+		String[] array = new String[list_of_files.size()];
+		return list_of_files.toArray(array);
+	
+	}
+		 
+		 
+	public static void DoImport(String file_name) {	 
+		 
+		 all_listings = new java.util.TreeMap<String, ParagonListing>();
+		 	boolean is = false;
+		 
+	    		java.io.File f = new java.io.File(file_name);
+	    		if(f.exists()){
+	    			is = readTheFile(file_name);
+	    		}else{
+	    			System.out.println("FAILURE!\n\tThe file: ["+file_name+"]\n\tcould not be found.");
+	    		}
+	    		//System.out.println("--found: ["+is+"]");
+	    		System.out.println("rows found: "+all_listings.size());
+	   
+	    	if(is){  
+
+	    		ParseTheFile(); 
+	    		//TestTheFile(file_name);
+	    		
+
+	    	}else if(!is){System.out.println(" unable to read input file "+file_name);}
+	 }
+	 
+	 
+//	 
+//	 private static boolean readTheFile(String file_to_parse){
+//	    	boolean bool = false;
+//	    	boolean column_titles_good = true;
+//	    	field_names = new java.util.TreeMap<String, String>();
+//	    	field_keys = new String[110];
+//	  
+//	    	fieldNamesSetUp(); 
+//	    	
+//	        CSVReader reader = null;
+//	        try{
+//	        	//int line_array_length =0;
+//	        	//int line_array_length_compare=0;
+//	        	int row = 0;
+//	        	int column = 0;
+//	        	reader = new CSVReader(new FileReader(file_to_parse),',');
+//	            String [] nextLine;
+//	            bool = true;
+//	         
+//	            
+//	            while ((nextLine = reader.readNext()) != null){
+//	            	//line_array_length = nextLine.length;
+//	            	
+//	            	ParagonListing paragon_listing = new ParagonListing();
+//	            	column = 0;
+//	                for(String token : nextLine){
+//	                	
+//	                	
+//	                	if(row==0){
+//	                		field_keys[column] = field_names.get(token);
+//	                		if(field_keys[column]==null){
+//	                			System.out.println("FAILURE! \n\tIn the file:\n\t"+ file_to_parse+"\n\tthe column heading: ["+token+ "]\n\tis not defined in the RMain.field_names TreeMap.\n\tThis file was NOT parsed.");
+//	                			column_titles_good = false;
+//	                			bool = false;
+//	                		}
+//	                	}
+//	                	try {
+//	                		if(row>0) {
+//	                			if(column_titles_good){
+//	                				if(token!=null && token.trim().length()>0){
+//	                					fields_active.add(field_keys[column]);
+//	                					paragon_listing.setFieldValue(field_keys[column], token);	
+//	                				}
+//	                			}
+//	                		}
+//	                	}catch(Exception e) {
+//	                		System.out.println(" 134: "+e);
+//	                	}
+//	                	column = column+1;
+//	                }
+//	                try {
+//	                	if(row>0  && column_titles_good && !paragon_listing.hasUnknownField()) {
+//	                		bool = true;
+//	                		all_listings.put(paragon_listing.getStringValue("mls"),paragon_listing);	
+//	                	}
+//	                }catch(Exception e) {
+//	                	System.out.println("line 143 "+e);
+//	                }
+//	                row= row+1;
+//	            }
+//	        }catch(Exception e) {
+//	        	System.out.println("["+e);
+//	        }
+//       
+//	        return (bool && column_titles_good);
+//	    }
+//	 
+
+
+	 private static boolean readTheFile(String file_to_parse){
+	    	boolean bool = false;
+	    	boolean column_titles_good = true;
+	    	field_names = new java.util.TreeMap<String, String>();
+	    	field_keys = new String[110];
+	  
+	    	fieldNamesSetUp(); 
+	    	
+	        CSVReader reader = null;
+	        try{
+	        	int row = 0;
+	        	int column = 0;
+	        	reader = new CSVReader(new FileReader(file_to_parse),',');
+	            String [] nextLine;
+	            bool = true;
+	         
+	            
+	            while ((nextLine = reader.readNext()) != null){
+	           
+	            	ParagonListing paragon_listing = new ParagonListing();
+	            	column = 0;
+	                for(String token : nextLine){
+	                
+	                	if(row==0){
+	                		field_keys[column] = field_names.get(token);
+	                		if(field_keys[column]==null){
+	                			System.out.println("FAILURE! \n\tIn the file:\n\t"+ file_to_parse+"\n\tthe column heading: ["+token+ "]\n\tis not defined in the RMain.field_names TreeMap.\n\tThis file was NOT parsed.");
+	                			column_titles_good = false;
+	                			bool = false;
+	                		}
+	                	}
+	                	if(row>0) {
+	                		if(column_titles_good){
+	        	                if(token!=null && token.trim().length()>0){
+	        	                	fields_active.add(field_keys[column]);
+
+	        	                	paragon_listing.setFieldValue(field_keys[column], token);	
+	        	                }
+	                		}
+	                	}
+	                	column = column+1;
+	                }
+	                if(row>0  && column_titles_good && !paragon_listing.hasUnknownField()) {
+	                	bool = true;
+	                	all_listings.put(paragon_listing.getStringValue("mls"),paragon_listing);
+	                }
+	                row= row+1;
+	               
+	            }
+	        }catch(Exception e) {
+	        	System.out.println(e);
+	        }
+
+	        return (bool && column_titles_good);
+	    }
+	 
+
+	 
+	 
+	    private static void ParseTheFile(){
+	    	if(all_listings!=null && all_listings.size()>0){
+	    		java.util.TreeMap<String,ParagonListing> values_input_set = new java.util.TreeMap<String,ParagonListing>();
+	    		java.util.Collection<String> keys_set = all_listings.keySet();
+	    		java.util.Iterator<String> k_it = keys_set.iterator();
+	    		int counter_i =0;
+	    		ParagonListing ll = null;
+	    		while(k_it.hasNext()){
+	    			ll = all_listings.get(k_it.next());
+	    			values_input_set.put(ll.getStringValue("mls"), ll);
+	    			counter_i++;
+	    			if(counter_i>200){
+	    				rgr.PGConnector.saveParagonListings(values_input_set, fields_active);
+	    				values_input_set = new java.util.TreeMap<String,ParagonListing>();
+	    				counter_i=0;
+	    			}
+	    		}
+	    		if(values_input_set!=null && values_input_set.size()>0){
+	    			rgr.PGConnector.saveParagonListings(values_input_set, fields_active);
+	    		}
+	    	}    	
+	    }
+	    
+	    
+	    private static void TestTheFile(String file_name){
+	    	boolean file_passed_test = true;
+	    	if(all_listings!=null && all_listings.size()>0 && file_passed_test){
+	    		
+	    		java.util.TreeMap<String,ParagonListing> values_input_set = new java.util.TreeMap<String,ParagonListing>();
+	    		java.util.Collection<String> keys_set = all_listings.keySet();
+	    		java.util.Iterator<String> k_it = keys_set.iterator();
+	    		int counter_i =0;
+	    		
+	    		ParagonListing ll = null;
+	    		while(k_it.hasNext()){
+	    			ll = all_listings.get(k_it.next());
+	    			values_input_set.put(ll.getStringValue("mls"), ll);
+	    			counter_i++;
+	    			if(counter_i>200){
+	   
+	    				//if(!Alert2015ListDate(values_input_set)) {
+	    				if(!AlertIfNoSoldDate(values_input_set)) {
+	    					file_passed_test= false;
+	    					break;
+	    				}
+	    				values_input_set = new java.util.TreeMap<String,ParagonListing>();
+	    				counter_i=0;
+	    			}
+	    		}
+	    		if(values_input_set!=null && values_input_set.size()>0 && file_passed_test){
+	    			file_passed_test=AlertIfNoSoldDate(values_input_set);
+	    			//file_passed_test=Alert2015ListDate(values_input_set);
+	    		}
+	    	}
+	    	if(!file_passed_test) {
+	    		System.out.println("the file ["+file_name+"] contains empty [sold_date]");
+	    	}
+	    }
+	    
+	    
+	    private static boolean AlertIfNoSoldDate(java.util.TreeMap<String,ParagonListing> values_input_set) {
+	    	boolean is_okay = true;
+	    	java.util.Set<String> keys = values_input_set.keySet();
+	    	java.util.Iterator<String> keys_it = keys.iterator();
+	    	while(keys_it.hasNext()) {
+	    		rgr.ent.ParagonListing pl = values_input_set.get(keys_it.next());
+	    		//System.out.println(pl.getDateValue("sold_date").toString());
+	    		if(pl.getDateValue("sold_date").toString().equals("1970-01-20") && (pl.getStringValue("status").equals("S") || pl.getStringValue("status").equals("s") || pl.getStringValue("status").equals("Sold"))) {
+	    			return false;
+	    		}
+	    	}
+	    	return is_okay;
+	    }
+	    
+	    private static boolean Alert2015ListDate(java.util.TreeMap<String,ParagonListing> values_input_set) {
+	    	boolean is_okay = true;
+	    	Calendar c = Calendar.getInstance();
+	    	java.util.Set<String> keys = values_input_set.keySet();
+	    	java.util.Iterator<String> keys_it = keys.iterator();
+	    	while(keys_it.hasNext()) {
+	    		rgr.ent.ParagonListing pl = values_input_set.get(keys_it.next());
+	    		//System.out.println(pl.getDateValue("sold_date").toString());
+	    		
+	    			c.setTime(pl.getUtilDateValue("sold_date"));
+	    			if(
+	    					c.get(Calendar.YEAR)==2015 &&
+	    					//pl.getDateValue("sold_date").toString().equals("1970-01-20") &&
+	    					( pl.getStringValue("status").equals("S") 
+	    							|| 
+	    					  pl.getStringValue("status").equals("Sold")
+	    					)
+	    			) {  
+	    				return false;
+	    			}
+	    	}
+	    	return is_okay;
+	    }
+	    
+	    
+	    
+	    /*
+	    private static void testNotIncluded() {
+	    	fieldNamesSetUp();
+	    	StringBuffer sb = new StringBuffer();
+	    	java.util.Iterator<String> str_it = all_fields.iterator();
+	    	String s = null;
+	    	while(str_it.hasNext()) {
+	    		s = str_it.next();
+	    		if(!field_names.containsKey(s)) {
+	    			sb.append(s);
+	    			sb.append("\n");
+	    		}
+	    	}
+	    	//System.out.println(sb.toString());
+	    	rgr.out.WriterOfFiles.writeAFile(sb.toString(), "/Users/john/google_cloud_robots", "fields_not_included.txt");
+	    }*/
+	    
+	 private static void fieldNamesSetUp(){
+		 field_names = new java.util.TreeMap<String, String>();	
+		 
+		 field_names.put("PicCount","pic_count");
+		 field_names.put("Pics","pics");
+		 field_names.put("ML #","mls");
+		 field_names.put("Prop Type","prop_type");
+		 field_names.put("Status","status");
+		 field_names.put("Address","address");
+		 field_names.put("S/A","sub_area");
+		 field_names.put("Area","area");
+		 field_names.put("List Price","list_price");
+		 field_names.put("Sold Price","sold_price");
+		 field_names.put("Price","price");
+		 field_names.put("Sold Price per SqFt","sold_price_per_sqft");
+		 field_names.put("Sold Price Per SQFT","sold_price_per_sqft");
+		 field_names.put("Sold Date","sold_date");
+		 field_names.put("DOM","days_to_sold");
+
+		 field_names.put("Tot BR","tot_bedrooms");
+
+		 field_names.put("Total Bedrooms","tot_bedrooms");
+		 field_names.put("Total Baths","tot_baths");
+		 field_names.put("Type","type");
+		 field_names.put("Yr Blt","year_built");
+		 field_names.put("Lot Sz(SF)","lot_sz_sqft");
+		 field_names.put("TypeDwel","type_of_dwelling"); 
+		 field_names.put("Permitted Land Use", "permitted_land_use");
+		 field_names.put("Access to Property", "access_to_property");
+		 field_names.put("Frontage - Feet", "frontage_feet");
+		 field_names.put("Postal Code", "postal_code");
+		 field_names.put("P.I.D.#","pid");
+		 field_names.put("Zoning","zoning");
+		 field_names.put("SP/LP Ratio","sp_lp_ratio");
+		 field_names.put("Commission","commission");
+		 field_names.put("PAD Rental","pad_rental");
+		 field_names.put("Prop Disclosure Statement", "prop_disclose_stmt");
+		 
+		 // these are new fields to be added
+		 
+		 field_names.put("Lot Sz (Acres)","lot_sz_acres");
+		 field_names.put("Region","region");
+		 field_names.put("# of Kitchens","num_kitch");
+		 field_names.put("1-Bedrm Units","one_bed_units");
+		 field_names.put("2-Bedrm Units","two_bed_units");
+		 field_names.put("3-Bedrm Units","three_bed_units");
+		 field_names.put("Adjustment Date","adjust_date");
+		 field_names.put("Age","age");
+		 field_names.put("Agent Hit Count","agt_hit_count");
+		 field_names.put("Appointment Phone Number","appointmt_phone_number");
+		 field_names.put("Approx.Yr of Renos/Addns","year_renovated");
+		 field_names.put("Bach./Studio Units","bach_studio_units");
+		 field_names.put("Back On Market Date","back_on_market_date");
+		 field_names.put("Bds In Bsmt","beds_in_bsmt");
+		 field_names.put("Bds Not In Bsmt","beds_not_in_bsmt");
+		 field_names.put("Bldg Permit Approved?","bldg_permit_approved");
+		 field_names.put("Building Plans","building_plans");
+		 field_names.put("Buyer","buyer");
+		 field_names.put("ByLaw Infractions?","bylaw_infrac");
+		 field_names.put("City","city");
+		 field_names.put("Class","class_");
+		 field_names.put("Collapse Date","collapse_date");
+		 field_names.put("Confirm Sold Date","confirm_sold_date");
+		 field_names.put("Days On MLS","days_on_mls");
+		 field_names.put("Days On Market","days_on_mls");
+		 field_names.put("Depth","depth");
+		 field_names.put("Development Permit?","dev_permit");
+		 field_names.put("Expiry Date","expiry_date");
+		 field_names.put("Fireplaces","fireplaces");
+		 field_names.put("Floor Area -Grand Total","floor_area_grand_tot");
+		 field_names.put("Floor Area Fin - Basement","floor_area_fin_basement");
+		 field_names.put("Foundation","foundation");
+		 field_names.put("Gross Taxes","gross_taxes");
+		 field_names.put("How Sold","how_sold");
+		 field_names.put("Income As At Date","income_as_as_date");
+		 field_names.put("Income Per Annum","income_per_annum");
+		 field_names.put("Include in DDF (Y/N)","include_in_ddf");
+		 field_names.put("Info Package Available?","info_package_avail");
+		 field_names.put("Jurisdiction","jusrisdiction");
+		 field_names.put("Land Lease Expiry Year","land_lease_expiry_year");
+		 field_names.put("Last Trans Date","last_trans_date");
+		 field_names.put("Less Oper. Expenses","less_opr_expens");
+		 field_names.put("No. Floor Levels","num_floor_lvl");
+		 field_names.put("Net Oper. Income","net_oper_incom");
+		 field_names.put("Other Units","other_units");
+		 field_names.put("Natural Gas","natural_gas");
+		 field_names.put("Municipality","municipality");
+		 field_names.put("List Date","list_date");
+		 field_names.put("Sanitary Sewer","sanitary_sewer");
+		 field_names.put("Sale/Rent","sale_rent");
+		 field_names.put("Realtor Remarks","realtor_remarks");
+		 field_names.put("Public Remarks","public_remarks");
+		 field_names.put("Province","public_remarks");
+		 field_names.put("Prop in Lnd Reserve?(ALR)","prop_in_alr");
+		 field_names.put("Previous Exp Date","prev_exp_date");
+		 field_names.put("Prev Price","prev_price");
+		 field_names.put("Potential for Rezoning?","potential_rezone");
+		 field_names.put("Parking Places - Total","parking_places_tot");
+		 field_names.put("Units in Development", "units_in_dev");
+		 field_names.put("Unit Entitlement","unit_entitlement");
+		 field_names.put("Tot Units in Strata Plan","units_in_strata_plan");
+		 field_names.put("Title to Land","title_to_land");
+		 field_names.put("Strata Maint Fee","strata_main_fee");
+		 field_names.put("Storm Sewer","storm_sewer");
+		 field_names.put("Stories in Building","stories_in_building");
+		 field_names.put("Storeys in Building","stories_in_building");
+		 field_names.put("Status Change Date","status_change_date");
+		 field_names.put("SP/OLP Ratio","sp_olp_ratio");
+		 field_names.put("Worldproperties.com","worlprop_com");
+		 field_names.put("Water Supply","water_supply");
+		 field_names.put("Trees(Logged in last 2yr)","trees_logged");
+		 field_names.put("DOM","days_to_sold");
+		 field_names.put("Days On Market","days_to_sold");
+		 
+		 field_names.put("Sold Price per SqFt","sold_price_per_sqft");
+		 field_names.put("Sold Price Per SQFT","sold_price_per_sqft");
+		 field_names.put("Price Per SQFT","----");
+		 field_names.put("Owner Name","----");
+		 field_names.put("Full Baths","----");
+		 field_names.put("For Appointment Call","----");
+		 field_names.put("Fire Sprinkler System","----");
+		 field_names.put("Electricity","----");
+		 field_names.put("Dwelling Classification","----");
+		 field_names.put("CSA/BCE","----");
+		 field_names.put("Complex/Subdivision","----");
+		 field_names.put("Client Hit Count","----");
+		 field_names.put("Cancel Protection Date","----");
+		 field_names.put("Cancel Effective Date","----");
+		 field_names.put("Alt Feature Sheet URL","----");
+		field_names.put("# or % of Rentals Allowed","----");
+		 
+	
+		// all_fields = new java.util.TreeSet<String>(); 
+	
+		/* 
+		all_fields.add("#Kitchens");
+		all_fields.add("# of Pets");
+		all_fields.add("# or % of Rentals Allowed");
+		all_fields.add("# Rms");
+		all_fields.add("# Roughed-in FP");
+		all_fields.add("1-Bedrm Units");
+		all_fields.add("2-Bedrm Units");
+		all_fields.add("3-Bedrm Units");
+		all_fields.add("Access to Property");
+		all_fields.add("Action Icons");
+		all_fields.add("Adjustment Date");
+		all_fields.add("Age");
+		all_fields.add("Age Type");
+		all_fields.add("Agent Hit Count");
+		all_fields.add("Alt Feature Sheet URL");
+		all_fields.add("Appointment Phone Number");
+		all_fields.add("Approx. Year Built");
+		all_fields.add("Approx.Yr of Renos/Addns");
+		all_fields.add("Area");
+		all_fields.add("Associated Document Count");
+		all_fields.add("Bach./Studio Units");
+		all_fields.add("Back On Market Date");
+		all_fields.add("Bath Ensuite # Of Pcs");
+		all_fields.add("Bath1 #Pcs");
+		all_fields.add("Bath1 Ensuite?");
+		all_fields.add("Bath1 Level");
+		all_fields.add("Bath2 #Pcs");
+		all_fields.add("Bath2 Ensuite?");
+		all_fields.add("Bath2 Level");
+		all_fields.add("Bath3 #Pcs");
+		all_fields.add("Bath3 Ensuite?");
+		all_fields.add("Bath3 Level");
+		all_fields.add("Bath4 #Pcs");
+		all_fields.add("Bath4 Ensuite?");
+		all_fields.add("Bath4 Level");
+		all_fields.add("Bath5 #Pcs");
+		all_fields.add("Bath5 Ensuite?");
+		all_fields.add("Bath5 Level");
+		all_fields.add("Bath6 #Pcs");
+		all_fields.add("Bath6 Ensuite?");
+		all_fields.add("Bath6 Level");
+		all_fields.add("Bath7 #Pcs");
+		all_fields.add("Bath7 Ensuite?");
+		all_fields.add("Bath7 Level");
+		all_fields.add("Bath8 #Pcs");
+		all_fields.add("Bath8 Ensuite?");
+		all_fields.add("Bath8 Level");
+		all_fields.add("Baths Concatenation");
+		all_fields.add("Bds In Bsmt");
+		all_fields.add("Bds Not In Bsmt");
+		all_fields.add("Billing");
+		all_fields.add("Billing2");
+		all_fields.add("Billing3");
+		all_fields.add("Billing4");
+		all_fields.add("Billing5");
+		all_fields.add("Bldg Permit Approved?");
+		all_fields.add("Board Loaded Listing");
+		all_fields.add("Broker Reciprocity");
+		all_fields.add("Building Plans");
+		all_fields.add("Buyer");
+		all_fields.add("ByLaw Infractions?");
+		all_fields.add("Cancel Effective Date");
+		all_fields.add("Cancel Protection Date");
+		all_fields.add("Cats");
+		all_fields.add("City");
+		all_fields.add("Class");
+		all_fields.add("Client Hit Count");
+		all_fields.add("Collapse Date");
+		all_fields.add("Commission");
+		all_fields.add("Complex/Subdivision");
+		all_fields.add("Concatenated Rooms");
+		all_fields.add("Confirm Sold Date");
+		all_fields.add("Council Apprv");
+		all_fields.add("Crawl Height");
+		all_fields.add("CSA/BCE");
+		all_fields.add("Cumulative DOM");
+		all_fields.add("Cumulative DOMLS");
+		all_fields.add("Days On Market");
+		all_fields.add("Days On MLS");
+		all_fields.add("DDF More Info URL");
+		all_fields.add("Deposit");
+		all_fields.add("Depth");
+		all_fields.add("Development Permit?");
+		all_fields.add("Display Addr on Internet");
+		all_fields.add("Dist to School/School Bus");
+		all_fields.add("Distance to Pub/Rapid Tr");
+		all_fields.add("Doc Manager");
+		all_fields.add("Dogs");
+		all_fields.add("Driveway Finish");
+		all_fields.add("Dwelling Classification");
+		all_fields.add("Electricity");
+		all_fields.add("Entry Date");
+		all_fields.add("Entry Date Delay");
+		all_fields.add("Expiry Date");
+		all_fields.add("Fake Listing");
+		all_fields.add("Fencing");
+		all_fields.add("Fire Sprinkler System");
+		all_fields.add("Fireplaces");
+		all_fields.add("First Withdrawn Date");
+		all_fields.add("Fixt Rntd/Lsd - Specify");
+		all_fields.add("Fixtures Removed Y/N");
+		all_fields.add("Fixtures Remvd");
+		all_fields.add("Fixtures Rntd/Lsd?");
+		all_fields.add("Flood Plain");
+		all_fields.add("Floor Area - Unfinished");
+		all_fields.add("Floor Area Fin - Abv Main");
+		all_fields.add("Floor Area Fin - Basement");
+		all_fields.add("Floor Area Fin - BLW Main");
+		all_fields.add("Floor Area Fin - Main Flr");
+		all_fields.add("Floor Area Fin - Total");
+		all_fields.add("Floor Area -Grand Total");
+		all_fields.add("Floorplan URL");
+		all_fields.add("For Appointment Call");
+		all_fields.add("For Tax Year");
+		all_fields.add("Foundation");
+		all_fields.add("Frontage - Feet");
+		all_fields.add("Frontage - Metres");
+		all_fields.add("Full Baths");
+		all_fields.add("Full Height");
+		all_fields.add("General Date");
+		all_fields.add("Geocode Quality");
+		all_fields.add("Gross Taxes");
+		all_fields.add("GST Incl");
+		all_fields.add("Half Baths");
+		all_fields.add("Hidden Flag");
+		all_fields.add("HotSheet Date");
+		all_fields.add("How Sold");
+		all_fields.add(" in DDF (Y/N)");
+		all_fields.add("Income As At Date");
+		all_fields.add("Income Per Annum");
+		all_fields.add("Incomplete Flag");
+		all_fields.add("Incomplete Message");
+		all_fields.add("Info Package Available?");
+		all_fields.add("Input Date");
+		all_fields.add("Internet Remarks");
+		all_fields.add("Jurisdiction");
+		all_fields.add("Land Lease Expiry Year");
+		all_fields.add("Last Trans Date");
+		all_fields.add("LastTransDateMLX");
+		all_fields.add("Legal Description");
+		all_fields.add("Less Oper. Expenses");
+		all_fields.add("List Date");
+		all_fields.add("List Price");
+		all_fields.add("Listing Entered By");
+		all_fields.add("Listing Pictures");
+		all_fields.add("Listing Visibility Type");
+		all_fields.add("Locker");
+		all_fields.add("Lot Sz (Acres)");
+		all_fields.add("Lot Sz (Hectares)");
+		all_fields.add("Lot Sz (Sq.Ft.)");
+		all_fields.add("Lot Sz (Sq.Mtrs.)");
+		all_fields.add("Low House #");
+		all_fields.add("Measurement Type");
+		all_fields.add("Member Board Affiliation");
+		all_fields.add("Mgmt. Co Name");
+		all_fields.add("Mgmt. Co Phone#");
+		all_fields.add("Mgr/Nominee Approval");
+		all_fields.add("Mgr/Nominee Approval Y/N");
+		all_fields.add("MHR Search");
+		all_fields.add("MHR#");
+		all_fields.add("Modified By");
+		all_fields.add("Multi ML # Flag");
+		all_fields.add("Multiple ML#");
+		all_fields.add("Municipality");
+		all_fields.add("Natural Gas");
+		all_fields.add("Neighborhood Code");
+		all_fields.add("Net Oper. Income");
+		all_fields.add("No. Floor Levels");
+		all_fields.add("Not Incl in Tax - Dyking");
+		all_fields.add("Not Incl in Tax - Garbage");
+		all_fields.add("Not Incl in Tax - Other");
+		all_fields.add("Not Incl in Tax - Sewer");
+		all_fields.add("Not Incl in Tax - Water");
+		all_fields.add("OldABFtr");
+		all_fields.add("OldSllrFtr");
+		all_fields.add("Other Board");
+		all_fields.add("Other Units");
+		all_fields.add("Out Bldgs-Barn Sz");
+		all_fields.add("Out Bldgs-Door Ht");
+		all_fields.add("Out Bldgs-Garage Sz");
+		all_fields.add("Out Bldgs-Pool Sz");
+		all_fields.add("Out Bldgs-Wrkshp/Shed Sz");
+		all_fields.add("Owner Name");
+		all_fields.add("P.I.D.#");
+		all_fields.add("PAD Rental");
+		all_fields.add("Parking Places - Covered");
+		all_fields.add("Parking Places - Total");
+		all_fields.add("Part Height");
+		all_fields.add("Perc Test Available?");
+		all_fields.add("Perc Test Date");
+		all_fields.add("Permitted Land Us");
+		all_fields.add("Photo Inst-Reuse ML#");
+		all_fields.add("Photo Instructions");
+		all_fields.add("Photo Message");
+		all_fields.add("Picture Count");
+		all_fields.add("Postal Code");
+		all_fields.add("Potential for Rezoning?");
+		all_fields.add("Prev Commission");
+		all_fields.add("Prev Price");
+		all_fields.add("Prev Status");
+		all_fields.add("Previous Exp Date");
+		all_fields.add("Previous Price Sys");
+		all_fields.add("Price");
+		all_fields.add("Price Date");
+		all_fields.add("Price Per SQFT");
+		all_fields.add("Privacy Flag");
+		all_fields.add("Processed Date");
+		all_fields.add("Prop Disclosure Statement");
+		all_fields.add("Prop in Lnd Reserve?(ALR)");
+		all_fields.add("Prop Type");
+		all_fields.add("Property Brochure URL");
+		all_fields.add("Property Disclosure");
+		all_fields.add("Prospectus");
+		all_fields.add("Protected Owner Name");
+		all_fields.add("Province");
+		all_fields.add("Pub Listing on Internet");
+		all_fields.add("Public Remarks");
+		all_fields.add("Rain Screen");
+		all_fields.add("Realtor Remarks");
+		all_fields.add("Reference #");
+		all_fields.add("Region");
+		all_fields.add("Registered");
+		all_fields.add("Restricted Age");
+		all_fields.add("Room 1 Dimension 1");
+		all_fields.add("Room 1 Dimension 2");
+		all_fields.add("Room 1 Level");
+		all_fields.add("Room 1 Type");
+		all_fields.add("Room 10 Dimension 1");
+		all_fields.add("Room 10 Dimension 2");
+		all_fields.add("Room 10 Level");
+		all_fields.add("Room 10 Type");
+		all_fields.add("Room 11 Dimension 1");
+		all_fields.add("Room 11 Dimension 2");
+		all_fields.add("Room 11 Level");
+		all_fields.add("Room 11 Type");
+		all_fields.add("Room 12 Dimension 1");
+		all_fields.add("Room 12 Dimension 2");
+		all_fields.add("Room 12 Level");
+		all_fields.add("Room 12 Type");
+		all_fields.add("Room 13 Dimension 1");
+		all_fields.add("Room 13 Dimension 2");
+		all_fields.add("Room 13 Level");
+		all_fields.add("Room 13 Type");
+		all_fields.add("	Room 14 Dimension 1");
+		all_fields.add("Room 14 Dimension 2");
+		all_fields.add("Room 14 Level");
+		all_fields.add("Room 14 Type");
+		all_fields.add("Room 15 Dimension 1");
+		all_fields.add("Room 15 Dimension 2");
+		all_fields.add("Room 15 Level");
+		all_fields.add("Room 15 Type");
+		all_fields.add("Room 16 Dimension 1");
+		all_fields.add("Room 16 Dimension 2");
+		all_fields.add("Room 16 Level");
+		all_fields.add("Room 16 Type");
+		all_fields.add("Room 17 Dimension 1");
+		all_fields.add("Room 17 Dimension 2");
+		all_fields.add("Room 17 Level");
+		all_fields.add("Room 17 Type");
+		all_fields.add("Room 18 Dimension 1");
+		all_fields.add("Room 18 Dimension 2");
+		all_fields.add("Room 18 Level");
+		all_fields.add("Room 18 Type");
+		all_fields.add("Room 19 Dimension 1");
+		all_fields.add("Room 19 Dimension 2");
+		all_fields.add("Room 19 Level");
+		all_fields.add("Room 19 Type");
+		all_fields.add("Room 2 Dimension 1");
+		all_fields.add(" 2 Dimension 2");
+		all_fields.add("Room 2 Level");
+		all_fields.add("Room 2 Type");
+		all_fields.add("Room 20 Dimension 1");
+		all_fields.add(" 20 Dimension 2");
+		all_fields.add("Room 20 Level");
+		all_fields.add("Room 20 Type");
+		all_fields.add("Room 21 Dimension 1");
+		all_fields.add("Room 21 Dimension 2");
+		all_fields.add("Room 21 Level");
+		all_fields.add("Room 21 Type");
+		all_fields.add("Room 22 Dimension 1");
+		all_fields.add("Room 22 Dimension 2");
+		all_fields.add("Room 22 Level");
+		all_fields.add("Room 22 Type");
+		all_fields.add("Room 23 Dimension 1");
+		all_fields.add("Room 23 Dimension 2");
+		all_fields.add("Room 23 Level");
+		all_fields.add("Room 23 Type");
+		all_fields.add("Room 24 Dimension 1");
+		all_fields.add("Room 24 Dimension 2");
+		all_fields.add("Room 24 Level");
+		all_fields.add("Room 24 Type");
+		all_fields.add("Room 25 Dimension 1");
+		all_fields.add("Room 25 Dimension 2");
+		all_fields.add("Room 25 Level");
+		all_fields.add("Room 25 Type");
+		all_fields.add("Room 26 Dimension 1");
+		all_fields.add("Room 26 Dimension 2");
+		all_fields.add("Room 26 Level");
+		all_fields.add("Room 26 Type");
+		all_fields.add("Room 27 Dimension 1");
+		all_fields.add("Room 27 Dimension 2");
+		all_fields.add("Room 27 Level");
+		all_fields.add("Room 27 Type");
+		all_fields.add("Room 28 Dimension 1");
+		all_fields.add("Room 28 Dimension 2");
+		all_fields.add("Room 28 Level");
+		all_fields.add("Room 28 Type");
+		all_fields.add("Room 3 Dimension 1");
+		all_fields.add("Room 3 Dimension 2");
+		all_fields.add("Room 3 Level");
+		all_fields.add("Room 3 Type");
+		all_fields.add("Room 4 Dimension 1");
+		all_fields.add("Room 4 Dimension 2");
+		all_fields.add("Room 4 Level");
+		all_fields.add("Room 4 Type");
+		all_fields.add("Room 5 Dimension 1");
+		all_fields.add("Room 5 Dimension 2");
+		all_fields.add("Room 5 Level");
+		all_fields.add("Room 5 Type");
+		all_fields.add("Room 6 Dimension 1");
+		all_fields.add("Room 6 Dimension 2");
+		all_fields.add("Room 6 Level");
+		all_fields.add("Room 6 Type");
+		all_fields.add("Room 7 Dimension 1");
+		all_fields.add("Room 7 Dimension 2");
+		all_fields.add("Room 7 Level");
+		all_fields.add("Room 7 Type");
+		all_fields.add("Room 8 Dimension 1");
+		all_fields.add("Room 8 Dimension 2");
+		all_fields.add("Room 8 Level");
+		all_fields.add("Room 8 Type");
+		all_fields.add("Room 9 Dimension 1");
+		all_fields.add(" 9 Dimension 2");
+		all_fields.add("Room 9 Level");
+		all_fields.add("Room 9 Type");
+		all_fields.add("Room Type Search");
+		all_fields.add("Roughed In Plumbing");
+		all_fields.add("S. Prc Exclsv of GST/HST?");
+		all_fields.add("/Rent");
+		all_fields.add("Sanitary Sewer");
+		all_fields.add("Search Date");
+		all_fields.add("Short Region Code");
+		all_fields.add("Showing Appts");
+		all_fields.add("Sign on Property?");
+		all_fields.add("Sketch Attached?");
+		all_fields.add("Smoke Detectors?");
+		all_fields.add("Sold Date");
+		all_fields.add("Sold Price");
+		all_fields.add("Sold Price per SqFt");
+		all_fields.add("Sold Price Per SQFT");
+		all_fields.add("SP/LP Ratio");
+		all_fields.add("SP/OLP Ratio");
+		all_fields.add("Status Change Date");
+		all_fields.add("Storeys in Building");
+		all_fields.add("Stories in Building");
+		all_fields.add("Storm Sewer");
+		all_fields.add("Strata Maint Fee");
+		all_fields.add("Sub-Area/Community");
+		all_fields.add("Sysid");
+		all_fields.add("Tax ID");
+		all_fields.add("Tax Utilities Incl");
+		all_fields.add("Telephone Service");
+		all_fields.add("Title Search");
+		all_fields.add("Title to Land");
+		all_fields.add("Tot Units in Strata Plan");
+		all_fields.add("Total Baths");
+		all_fields.add("Total Bedrooms");
+		all_fields.add("Trees(Logged in last 2yr)");
+		all_fields.add("Type of Dwelling");
+		all_fields.add("Unit Entitlement");
+		all_fields.add("Units in Development");
+		all_fields.add("Update Date");
+		all_fields.add("URL 4");
+		all_fields.add("View");
+		all_fields.add("View - Specify");
+		all_fields.add("Virtual Tour URL");
+		all_fields.add("VOW AVM");
+		all_fields.add("Comment");
+		all_fields.add("Water Supply");
+		all_fields.add("Worldproperties.com");
+		all_fields.add("Zoning");
+	*/
+
+
+	 }
+	 
+	 public void afterImportUpdatePropClasses() {
+		 
+		 
+		 /*
+		  * 
+		  * 
+		  * update para_listing_sold set type_of_dwelling='Triplex' where type_of_dwelling in ('3PLEX')
+		  * 
+		  * 
+update para_listing_sold set type_of_dwelling='Fourplex' where type_of_dwelling in ('4PLEX')
+update para_listing_sold set type_of_dwelling='Apartment/Condo' where type_of_dwelling in ('APTU')
+update para_listing_sold set type_of_dwelling='Duplex' where type_of_dwelling in ('DUPLX')
+update para_listing_sold set type_of_dwelling='1/2 Duplex' where type_of_dwelling in ('DUPXH')
+update para_listing_sold set type_of_dwelling='House with Acreage' where type_of_dwelling in ('HACR')
+update para_listing_sold set type_of_dwelling='House/Single Family' where type_of_dwelling in ('HOUSE')
+update para_listing_sold set type_of_dwelling='Manufactured'  where type_of_dwelling in ('MANUF')	
+update para_listing_sold set type_of_dwelling='Manufactured with Land'  where type_of_dwelling in ('MNFLD')	
+update para_listing_sold set type_of_dwelling='Other'  where type_of_dwelling in ('OTHER')	
+update para_listing_sold set type_of_dwelling='Recreational'  where type_of_dwelling in ('RECRE')	
+update para_listing_sold set type_of_dwelling='Row House (Non-Strata)'  where type_of_dwelling in ('ROWHS')	
+update para_listing_sold set type_of_dwelling='Townhouse'  where type_of_dwelling in ('TWNHS')	
+		  * 
+		  * 
+		  */
+		 
+	 }
+	 
+} 
+	 

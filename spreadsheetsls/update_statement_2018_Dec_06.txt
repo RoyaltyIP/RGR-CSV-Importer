@@ -1,0 +1,150 @@
+update para_listing_sold set area ='West Vancouver' where sub_area in ('Altamont','Ambleside','Bayridge','British Properties','Canterbury WV','Caulfeild','Cedardale','Chartwell','Chelsea Park','Cypress','Cypress Park Estates','Deer Ridge WV','Dundarave','Eagle Harbour','Eagleridge','Furry Creek','Gleneagles','Glenmore','Horseshoe Bay WV','Howe Sound','Lions Bay','Olde Caulfeild','Panorama Village','Park Royal','Queens','Rockridge','Sandy Cove','Sentinel Hill','Upper Caulfeild','West Bay','Westhill','Westmount WV','Whitby Estates','Whytecliff') and area in ('');
+
+
+update para_listing_sold set area ='Williams Lake (Zone 27)' where sub_area in ('150 Mile House','Bella Coola/Hagensborg','Esler/Dog Creek','Horsefly','Lakeside Rural','Likely','McLeese Lake','Williams Lake - City','Williams Lake - Rural East','Williams Lake - Rural North','Williams Lake - Rural South','Williams Lake - Rural West') and area in ('');
+
+
+update para_listing_sold set area ='Sunshine Coast' where sub_area in ('Gambier Island','Gibsons & Area','Halfmn Bay Secret Cv Redroofs','Keats Island','Nelson Island','Pender Harbour Egmont','Roberts Creek','Sechelt District') and area in ('');
+
+
+
+update para_listing_sold set area ='Coquitlam' where sub_area in ('Burke Mountain','Canyon Springs','Cape Horn','Central Coquitlam','Chineside','Coquitlam East','Coquitlam West','Eagle Ridge CQ','Harbour Chines','Harbour Place','Hockaday','Maillardville','Meadow Brook','New Horizons','North Coquitlam','Park Ridge Estates','Ranch Park','River Springs','Scott Creek','Summitt View','Upper Eagle Ridge','Westwood Plateau','Westwood Summit CQ') and area in ('');
+
+
+
+
+update para_listing_sold set area ='PG Rural East (Zone 80)' where sub_area in ('Giscome/Ferndale','Hansard','Purden','Shelley','Tabor Lake','Upper Fraser','Willow River') and area in ('');
+update para_listing_sold set area ='Fort Nelson (Zone 64)' where sub_area in ('Fort Nelson - Remote','Fort Nelson - Rural','Fort Nelson -Town') and area in ('');
+
+
+
+
+
+update para_listing_sold set area ='PG City North (Zone 73)' where sub_area in ('Aberdeen PG','Birchwood','Edgewood Terrace','Emerald','Hart Highlands','Hart Highway','Ingala','Mount Alder','Nechako Bench','Nechako Ridge','North Kelly','North Meadows','Old Summit Lake Road','Valleyview','West Austin') and area in ('');
+
+
+
+
+
+update para_listing_sold set area ='South Surrey White Rock' where sub_area in ('Crescent Bch Ocean Pk.','Elgin Chantrell','Grandview Surrey','Hazelmere','King George Corridor','Morgan Creek','Pacific Douglas','Sunnyside Park Surrey','White Rock') and area in ('');
+
+
+
+update para_listing_sold set area ='Bowen Island' where sub_area in ('Bowen Island') and area in ('');
+update para_listing_sold set area ='North Surrey' where sub_area in ('Bolivar Heights','Bridgeview','Cedar Hills','Fraser Heights','Guildford','Port Kells','Royal Heights','Whalley') and area in ('');
+
+
+
+
+
+update para_listing_sold set area ='N. Delta' where sub_area in ('Annieville','Nordel','Scottsdale','Sunshine Hills Woods') and area in ('');
+update para_listing_sold set area ='Mission' where sub_area in ('Dewdney Deroche','Durieu','Hatzic','Hemlock','Lake Errock','Mission BC','Mission-West','Stave Falls','Steelhead') and area in ('');
+
+
+update para_listing_sold set area ='Pemberton' where sub_area in ('Birken','D''Arcy','Devine','Ivey Lake Estates','Lillooet Lake','Mount Currie','Owl Ridge','Pemberton','Pemberton Meadows','Poole Creek','Walkerville Estates') and area in ('');
+
+
+
+
+update para_listing_sold set area ='Islands-Van. & Gulf' where sub_area in (Gabriola Island','Galiano Island','Islands Other','Mayne Island','Pender Island','Salt Spring Island','Saturna Island') and area in ('');
+
+
+
+update para_listing_sold set area ='100 Mile House (Zone 10)' where sub_area in ('100 Mile House - Rural','100 Mile House - Town','100 Mile House - West','103 Mile House','108 Ranch','70 Mile House','Bridge Lake/Sheridan Lake','Canim/Mahood Lake','Deka/Sulphurous/Hathaway Lakes','Forest Grove','Horse Lake','Lac la Hache','Lone Butte/Green Lk/Watch Lk') and area in ('');
+
+
+
+update para_listing_sold set area ='Terrace (Zone 88)' where sub_area in ('Atlin','Lakelse Lake','Stewart/Cassiar','Terrace - City','Terrace - Northwest/Rosswood','Terrace - Rural East/Cedarvale','Terrace - Rural Southwest','Thornhill') and area in ('');
+
+
+
+update para_listing_sold set area ='Squamish' where sub_area in ('Brackendale','Brennan Center','Britannia Beach','Business Park','Dentville','Downtown SQ','Garibaldi Estates','Garibaldi Highlands','Hospital Hill','Northyards','Paradise Valley','Plateau','Ring Creek','Squamish Rural','Tantalus','University Highlands','Upper Squamish','Valleycliffe') and area in ('');
+
+
+
+update para_listing_sold set area ='Agassiz' where sub_area in ('Agassiz') and area in ('');
+
+
+update para_listing_sold set area ='Kitimat (Zone 89)' where sub_area in ('Kitimat') and area in ('');
+
+
+
+update para_listing_sold set area ='Mackenzie (Zone 69)' where sub_area in ('Mackenzie - Rural','Mackenzie -Town','McLeod Lake') and area in ('');
+
+
+
+update para_listing_sold set area ='North Vancouver' where sub_area in ('Blueridge NV','Boulevard','Braemar','Calverhall','Canyon Heights NV','Capilano NV','Central Lonsdale','Deep Cove','Delbrook','Dollarton','Edgemont','Forest Hills NV','Grouse Woods','Hamilton','Hamilton Heights','Indian Arm','Indian River','Lower Lonsdale','Lynn Valley','Lynnmour','Norgate','Northlands','Pemberton Heights','Pemberton NV','Princess Park','Queensbury','Roche Point','Seymour NV','Tempe','Upper Delbrook','Upper Lonsdale','Westlynn','Westlynn Terrace','Windsor Park NV','Woodlands-Sunshine-Cascade') and area in ('');
+
+
+
+
+update para_listing_sold set area ='Vancouver East' where sub_area in ('Champlain Heights','Collingwood VE','Downtown VE','Fraser VE','Fraserview VE','Grandview VE','Hastings','Hastings East','Killarney VE','Knight','Main','Mount Pleasant VE','Renfrew Heights','Renfrew VE','South Vancouver','Victoria VE') and area in ('');
+
+
+update para_listing_sold set area ='Prince Rupert (Zone 52)' where sub_area in ('Masset','Port Clements','Port Edward','Prince Rupert - City','Prince Rupert - Rural','Queen Charlotte - Rural') and area in ('');
+
+
+update para_listing_sold set area ='Harrison Hot Springs' where sub_area in ('Harrison Hot Springs') and area in ('');
+
+
+
+update para_listing_sold set area ='PG Rural North (Zone 76)' where sub_area in ('Bear Lake','Chief Lake Road','Hobby Ranches','Ness Lake','Nukko Lake','Reid Lake','Salmon Valley','Summit Lake') and area in ('');
+
+
+update para_listing_sold set area ='Cultus Lake' where sub_area in ('Columbia Valley','Cultus Lake','Lindell Beach') and area in ('');
+
+
+update para_listing_sold set area ='PG City West (Zone 71)' where sub_area in ('Carter Light','Cranbrook Hill','Foothills','Fraserview','Heritage','Highglen','Highland Park','Lakewood','Peden Hill','Perry','Pinecone','Pinewood','Quinson','Spruceland','Westwood') and area in ('');
+
+
+update para_listing_sold set area ='New Westminster' where sub_area in ('Connaught Heights','Downtown NW','Fraserview NW','GlenBrooke North','Moody Park','North Arm','Quay','Queens Park','Queensborough','Sapperton','The Heights NW','Uptown NW','West End NW') and area in ('');
+
+
+
+update para_listing_sold set area ='Yarrow' where sub_area in ('Majuba Hill','Yarrow') and area in ('');
+update para_listing_sold set area ='Cloverdale' where sub_area in ('Clayton','Cloverdale BC','Serpentine') and area in ('');
+update para_listing_sold set area ='PG City South East (Zone 75)' where sub_area in ('Airport','BCR Industrial','Danson','North Blackburn','Sintich','South Blackburn') and area in ('');
+update para_listing_sold set area ='Surrey' where sub_area in ('Bear Creek Green Timbers','East Newton','Fleetwood Tynehead','Panorama Ridge','Queen Mary Park Surrey','Sullivan Station','West Newton') and area in ('');
+update para_listing_sold set area ='Richmond' where sub_area in ('Boyd Park','Bridgeport RI','Brighouse','Brighouse South','Broadmoor','East Cambie','East Richmond','Garden City','Gilmore','Granville','Hamilton RI','Ironwood','Lackner','McLennan','McLennan North','McNair','Quilchena RI','Riverdale RI','Saunders','Sea Island','Seafair','South Arm','Steveston North','Steveston South','Steveston Village','Terra Nova','West Cambie','Westwind','Woodwards') and area in ('');
+update para_listing_sold set area ='Burns Lake (Zone 55)' where sub_area in ('Burns Lake - Rural East','Burns Lake - Rural North','Burns Lake - Rural South','Burns Lake - Rural West','Burns Lake - Town','Granisle','South Francois','Topley') and area in ('');
+update para_listing_sold set area ='Burnaby North' where sub_area in ('Brentwood Park','Capitol Hill BN','Cariboo','Central BN','Forest Hills BN','Government Road','Lake City Industrial','Montecito','Oakdale','Parkcrest','Simon Fraser Hills','Simon Fraser Univer.','Sperling-Duthie','Sullivan Heights','Vancouver Heights','Westridge BN','Willingdon Heights') and area in ('');
+update para_listing_sold set area ='Port Coquitlam' where sub_area in ('Birchland Manor','Central Pt Coquitlam','Citadel PQ','Glenwood PQ','Lincoln Park PQ','Lower Mary Hill','Mary Hill','Oxford Heights','Riverwood','Woodland Acres PQ') and area in ('');
+
+
+update para_listing_sold set area ='Burnaby South' where sub_area in ('Big Bend','Buckingham Heights','Burnaby Hospital','Burnaby Lake','Central Park BS','Deer Lake','Deer Lake Place','Forest Glen BS','Garden Village','Greentree Village','Highgate','Metrotown','Oaklands','South Slope','Suncrest','Upper Deer Lake') and area in ('');
+
+
+update para_listing_sold set area ='PG City Central (Zone 72)' where sub_area in ('Assman','Central','Connaught','Crescents','Downtown','East End','Millar Addition','Nechako View','Seymour','South Fort George','VLA','Van Bow') and area in ('');
+update para_listing_sold set area ='Whistler' where sub_area in ('Alpine Meadows','Alta Vista','Bayshores','Benchlands','Black Tusk - Pinecrest','Blueberry Hill','Brio','Cheakamus Crossing','Emerald Estates','Green Lake Estates','Nesters','Nordic','Rainbow','Spring Creek','Spruce Grove','WedgeWoods','Westside','Whistler Cay Estates','Whistler Cay Heights','Whistler Creek','Whistler Village','White Gold') and area in ('');
+update para_listing_sold set area ='Port Moody' where sub_area in ('Anmore','Barber Street','Belcarra','College Park PM','Glenayre','Heritage Mountain','Heritage Woods PM','Mountain Meadows','North Shore Pt Moody','Port Moody Centre') and area in ('');
+update para_listing_sold set area ='Rosedale' where sub_area in ('Rosedale Center','Rosedale Popkum') and area in ('');
+update para_listing_sold set area ='Langley' where sub_area in ('Aldergrove Langley','Brookswood Langley','Campbell Valley','County Line Glen Valley','Fort Langley','Langley City','Murrayville','Otter District','Salmon River','Walnut Grove','Willoughby Heights') and area in ('');
+update para_listing_sold set area ='Harrison Mills / Mt Woodside' where sub_area in ('Harrison Mills','Mt Woodside') and area in ('');
+update para_listing_sold set area ='Quesnel (Zone 28)' where sub_area in ('Bouchie Lake','Quesnel - Rural North','Quesnel - Rural West','Quesnel - South Hills','Quesnel - Town','Quesnel Rural - South','Red Bluff/Dragon Lake','Wells/Barkerville') and area in ('');
+update para_listing_sold set area ='Maple Ridge' where sub_area in ('Albion','Cottonwood MR','East Central','North Maple Ridge','Northeast','Northwest Maple Ridge','Silver Valley','Southwest Maple Ridge','Thornhill MR','Websters Corners','West Central','Whonnock') and area in ('');
+update para_listing_sold set area ='Smithers And Area (Zone 54)' where sub_area in ('Hazelton','Kitwanga','Smithers - Rural','Smithers - Town','Telkwa') and area in ('');
+update para_listing_sold set area ='Pitt Meadows' where sub_area in ('Central Meadows','Mid Meadows','North Meadows PI','South Meadows','West Meadows') and area in ('');
+update para_listing_sold set area ='PG City South (Zone 74)' where sub_area in ('Charella/Starlane','Gauthier','Haldi','Jensen','Lafreniere','Lower College','Parkridge','St. Lawrence Heights','Upper College','Western Acres') and area in ('');
+update para_listing_sold set area ='Chilliwack' where sub_area in ('Chilliwack E Young-Yale','Chilliwack Mountain','Chilliwack N Yale-Well','Chilliwack W Young-Well','Chilliwack Yale Rd West','East Chilliwack','Eastern Hillsides','Fairfield Island','Little Mountain') and area in ('');
+
+
+
+
+update para_listing_sold set area ='Abbotsford' where sub_area in ('Abbotsford East','Abbotsford West','Aberdeen','Bradner','Central Abbotsford','Matsqui','Poplar','Sumas Mountain','Sumas Prairie') and area in ('');
+update para_listing_sold set area ='VAN Fake Area' where sub_area in ('VAN Fake SubAreaComm') and area in ('');
+update para_listing_sold set area ='Vanderhoof And Area (Zone 56)' where sub_area in ('Fort Fraser','Fraser Lake','Vanderhoof - Rural','Vanderhoof - Town') and area in ('');
+update para_listing_sold set area ='Tsawwassen' where sub_area in ('Beach Grove','Boundary Beach','Cliff Drive','English Bluff','Pebble Hill','Tsawwassen Central','Tsawwassen East') and area in ('');
+update para_listing_sold set area ='Houston (Zone 53)' where sub_area in ('Houston - Rural','Houston - Town') and area in ('');
+update para_listing_sold set area ='PG Rural South (Zone 78)' where sub_area in ('Buckhorn','Hixon','Pineview','Red Rock/Stoner') and area in ('');
+update para_listing_sold set area ='Sardis' where sub_area in ('Chilliwack River Valley','Greendale Chilliwack','Promontory','Ryder Lake','Sardis East Vedder Rd','Sardis West Vedder Rd','Vedder S Watson-Promontory') and area in ('');
+update para_listing_sold set area ='Fort St. John (Zone 60)' where sub_area in ('Fort St. John - City NE','Fort St. John - City NW','Fort St. John - City SE','Fort St. John - City SW','Fort St. John - Rural E 100th','Fort St. John - Rural W 100th','Fort St. John - South Peace','Hudsons Hope','Lakeshore','Taylor') and area in ('');
+update para_listing_sold set area ='Robson Valley (Zone 81)' where sub_area in ('Dome Creek','McBride - Rural West','McBride - Town','Valemount - Rural South','Valemount - Rural West','Valemount - Town') and area in ('');
+update para_listing_sold set area ='Out of Town' where sub_area in ('Out of Town') and area in ('');
+update para_listing_sold set area ='Vancouver West' where sub_area in ('Arbutus','Cambie','Coal Harbour','Downtown VW','Dunbar','Fairview VW','False Creek','Kerrisdale','Kitsilano','MacKenzie Heights','Marpole','Mount Pleasant VW','Oakridge VW','Point Grey','Quilchena','S.W. Marine','Shaughnessy','South Cambie','South Granville','Southlands','University VW','West End VW','Yaletown') and area in ('');
+update para_listing_sold set area ='Burnaby East' where sub_area in ('East Burnaby','Edmonds BE','The Crest') and area in ('');
+update para_listing_sold set area ='Fort St. James (Zone 57)' where sub_area in ('Fort St. James - Rural','Fort St. James - Town') and area in ('');
+update para_listing_sold set area ='BCNREB Out of Area' where sub_area in ('BCNREB Out of Area') and area in ('');
+update para_listing_sold set area ='Ladner' where sub_area in ('Delta Manor','East Delta','Hawthorne','Holly','Ladner Elementary','Ladner Rural','Neilsen Grove','Port Guichon','Westham Island') and area in ('');
+update para_listing_sold set area ='Hope' where sub_area in ('Boston Bar - Lytton','Hope Center','Hope Kawkawa Lake','Hope Laidlaw','Hope Silver Creek','Hope Sunshine Valley','Yale','Yale - Dogwood Valley') and area in ('');
+update para_listing_sold set area ='PG Rural West (Zone 77)' where sub_area in ('Beaverley','Bednesti','Blackwater','Cluculz Lake','Isle Pierre','Lower Mud','Miworth','Upper Mud') and area in ('');
+update para_listing_sold set area ='FVREB Out of Town' where sub_area in ('FVREB Out of Town') and area in ('');

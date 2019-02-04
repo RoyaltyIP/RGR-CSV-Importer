@@ -1,0 +1,90 @@
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+avg(list_price) avg_list_price,
+
+
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms, avg(days_to_sold) avg_sold    
+from para_listing_sold 
+where status in ('Sold') and apt in('true') and area in ('Vancouver West')
+and date_part('year', sold_date) not in ('1970') and days_to_sold>0
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 
+
+
+
+
+
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms, avg(days_to_sold) avg_sold    
+from para_listing_sold 
+where status in ('Sold') and apt in ('true') and area in ('Vancouver West')
+and date_part('year', sold_date) not in ('1970') and days_to_sold not in (0)
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 
+
+
+update para_listing_sold set flr_area_cal_tot=floor_area_grand_tot where floor_area_grand_tot>0
+
+
+
+
+
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms, avg(days_to_sold) avg_sold    
+from para_listing_sold 
+where status in ('Sold') and apt in('true') and area in ('Vancouver West')
+and date_part('year', sold_date) not in ('1970') and days_to_sold not in (0)
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 
+
+
+alter table para_listing_sold add flr_area_cal_tot int not null default '0'
+
+update para_listing_sold set 
+
+
+update para_listing_sold
+set 
+days_to_sold=para_listing.days_to_sold
+
+from para_listing where 
+para_listing_sold.mls=para_listing.mls 
+and para_listing.days_to_sold not in (0)
+and para_listing_sold.days_to_sold in (0)
+
+
+update para_listing_sold set flr_area_cal_tot=
+para_listing.floor_area_fin_total from para_listing where
+flr_area_cal_tot=0 and 
+para_listing.mls=para_listing_sold and 
+para_listing.floor_area_fin_total>0 
+
+
+
+
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms, avg(days_to_sold) avg_sold    
+from para_listing_sold 
+where status in ('Sold') and apt in('true') and area in ('Vancouver West')
+and date_part('year', sold_date) not in ('1970') 
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 
+
+
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms,  
+from para_listing_sold 
+where status in ('Sold') and apt in('true') and area in ('Vancouver West')
+and date_part('year', sold_date) not in ('1970') 
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 
+
+
+select area,sub_area, cast(avg(sold_price) as numeric(18,2) ) avg_sold, 
+count(sold_price) how_many, concat(date_part('year', sold_date),'-',date_part('month', sold_date),'-01') as the_month, 
+tot_bedrooms from para_listing_sold where status in ('Sold') and apt in('true') and area in ('Vancouver West') 
+group by tot_bedrooms, the_month, area, sub_area  order by  area, the_month 

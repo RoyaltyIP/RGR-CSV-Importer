@@ -1,0 +1,94 @@
+sp_olp_ratio
+strata_main_fee
+PostGresConnector.storeNewContentItem: org.postgresql.util.PSQLException: The column index is out of range: 11, number of columns: 10.
+ null
+try to do update: 60
+
+update para_listing_sold set 
+frontage_feet=? ,
+gross_taxes=? ,
+lot_sz_acres=? ,prev_price=? ,sold_price=? ,sold_price_per_sqft=? ,sp_lp_ratio=? ,sp_olp_ratio=? ,strata_main_fee=? where mls=?
+
+frontage_feet
+gross_taxes
+list_price
+lot_sz_acres
+prev_price
+sold_price
+sold_price_per_sqft
+sp_lp_ratio
+sp_olp_ratio
+strata_main_fee
+PostGresConnector.storeNewContentItem: org.postgresql.util.PSQLException: The column index is out of range: 11, number of columns: 10.
+ null
+
+
+
+alter table para_listing_sold add lot_sz_acres numeric(14,2) not null default '0.0'
+alter table para_listing_sold add region varchar(256) not null default ''
+alter table para_listing_sold add num_kitch integer not null default '-1' 
+alter table para_listing_sold add one_bed_units integer not null default '-1' 
+alter table para_listing_sold add two_bed_units  integer not null default '-1' 
+alter table para_listing_sold add three_bed_units  integer not null default '-1' 
+alter table para_listing_sold add adjust_date date not null default '1166-12-24'
+alter table para_listing_sold add age  integer not null default '-1' 
+alter table para_listing_sold add agt_hit_count integer not null default '-1' 
+alter table para_listing_sold add appointmt_phone_number varchar(30) not null default ''
+alter table para_listing_sold add year_renovated integer not null default '-1' 
+alter table para_listing_sold add bach_studio_units  varchar(256) not null default ''
+alter table para_listing_sold add back_on_market_date date not null default '1166-12-24'
+alter table para_listing_sold add beds_in_bsmt integer not null default '-1' 
+alter table para_listing_sold add beds_not_in_bsmt  integer not null default '-1' 
+alter table para_listing_sold add bldg_permit_approved  varchar(256) not null default ''
+alter table para_listing_sold add building_plans  varchar(256) not null default ''
+alter table para_listing_sold add buyer varchar(256) not null default ''
+alter table para_listing_sold add bylaw_infrac  varchar(256) not null default ''
+alter table para_listing_sold add city  varchar(256) not null default ''
+alter table para_listing_sold add class_  varchar(256) not null default ''
+alter table para_listing_sold add collapse_date date not null default '1166-12-24'
+alter table para_listing_sold add confirm_sold_date date not null default '1166-12-24'
+alter table para_listing_sold add days_on_mls integer not null default '-1' 
+alter table para_listing_sold add depth  varchar(256) not null default ''
+alter table para_listing_sold add dev_permit  varchar(20) not null default ''
+alter table para_listing_sold add expiry_date date not null default '1166-12-24'
+alter table para_listing_sold add fireplaces integer not null default '-1' 
+alter table para_listing_sold add floor_area_grand_tot integer not null default '-1' 
+alter table para_listing_sold add floor_area_fin_basement integer not null default '-1' 
+alter table para_listing_sold add foundation  varchar(256) not null default ''
+alter table para_listing_sold add gross_taxes numeric(14,2) not null default '0.0'
+alter table para_listing_sold add how_sold  varchar(256) not null default ''
+alter table para_listing_sold add income_as_of_date varchar(256) not null default ''
+alter table para_listing_sold add income_per_annum varchar(256) not null default ''
+alter table para_listing_sold add include_in_ddf  varchar(20) not null default ''
+alter table para_listing_sold add info_package_avail  varchar(256) not null default ''
+alter table para_listing_sold add jusrisdiction  varchar(256) not null default ''
+alter table para_listing_sold add land_lease_expiry_year  varchar(20) not null default ''
+alter table para_listing_sold add last_trans_date date not null default '1166-12-24'
+alter table para_listing_sold add less_opr_expens  varchar(256) not null default ''
+alter table para_listing_sold add list_date  date not null default '1166-12-24'
+alter table para_listing_sold add num_floor_lvl integer not null default '-1' 
+alter table para_listing_sold add net_oper_incom  varchar(256) not null default ''
+alter table para_listing_sold add other_units  varchar(256) not null default ''
+alter table para_listing_sold add natural_gas  varchar(256) not null default ''
+alter table para_listing_sold add municipality  varchar(256) not null default ''
+alter table para_listing_sold add sanitary_sewer varchar(256) not null default ''
+alter table para_listing_sold add sale_rent  varchar(256) not null default ''
+alter table para_listing_sold add realtor_remarks text
+alter table para_listing_sold add public_remarks text
+alter table para_listing_sold add prop_in_alr  varchar(256) not null default ''
+alter table para_listing_sold add prev_exp_date date not null default '1166-12-24'
+alter table para_listing_sold add prev_price numeric(14,2) not null default '0.0'
+alter table para_listing_sold add potential_rezone  varchar(30) not null default ''
+alter table para_listing_sold add parking_places_tot  integer not null default '-1' 
+alter table para_listing_sold add units_in_dev  integer not null default '-1' 
+alter table para_listing_sold add unit_entitlement  varchar(256) not null default ''
+alter table para_listing_sold add units_in_strata_plan  integer not null default '-1' 
+alter table para_listing_sold add title_to_land  varchar(256) not null default ''
+alter table para_listing_sold add strata_main_fee numeric(14,2) not null default '0.0'
+alter table para_listing_sold add storm_sewer  varchar(256) not null default ''
+alter table para_listing_sold add stories_in_building  integer not null default '-1' 
+alter table para_listing_sold add status_change_date  date not null default '1166-12-24'
+alter table para_listing_sold add sp_olp_ratio numeric(14,2) not null default '0.0'
+alter table para_listing_sold add worlprop_com  varchar(256) not null default ''
+alter table para_listing_sold add water_supply  varchar(256) not null default ''
+

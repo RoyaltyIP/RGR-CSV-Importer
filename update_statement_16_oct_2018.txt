@@ -1,0 +1,180 @@
+
+
+
+
+update property_classes
+
+update para_listing_sold set apt='true' where 
+
+select * from para_listing_sold where 
+
+prop_type in ('Residential Attached') and type_of_dwelling in ('Apartment/Condo','Recreational')
+
+
+update para_listing_sold set type_of_dwelling='Triplex' where type_of_dwelling in ('3PLEX')
+update para_listing_sold set type_of_dwelling='Fourplex' where type_of_dwelling in ('4PLEX')
+update para_listing_sold set type_of_dwelling='Apartment/Condo' where type_of_dwelling in ('APTU')
+update para_listing_sold set type_of_dwelling='Duplex' where type_of_dwelling in ('DUPLX')
+update para_listing_sold set type_of_dwelling='1/2 Duplex' where type_of_dwelling in ('DUPXH')
+update para_listing_sold set type_of_dwelling='House with Acreage' where type_of_dwelling in ('HACR')
+update para_listing_sold set type_of_dwelling='House/Single Family' where type_of_dwelling in ('HOUSE')
+update para_listing_sold set type_of_dwelling='Manufactured'  where type_of_dwelling in ('MANUF')	
+update para_listing_sold set type_of_dwelling='Manufactured with Land'  where type_of_dwelling in ('MNFLD')	
+update para_listing_sold set type_of_dwelling='Other'  where type_of_dwelling in ('OTHER')	
+update para_listing_sold set type_of_dwelling='Recreational'  where type_of_dwelling in ('RECRE')	
+update para_listing_sold set type_of_dwelling='Row House (Non-Strata)'  where type_of_dwelling in ('ROWHS')	
+update para_listing_sold set type_of_dwelling='Townhouse'  where type_of_dwelling in ('TWNHS')	
+
+
+
+
+
+
+
+what is confirm_sold_date
+what is adjustment_date
+
+
+
+create table para_listing_sold (
+pls_id serial primary key,
+mls varchar(20) not null default '',
+prop_type varchar(256) not null default '',
+status varchar(30) not null default '',
+address varchar(256) not null default '',
+area varchar(256) not null default '',
+sub_area varchar(256) not null default '',
+type_of_dwelling varchar(256) not null default '',
+pid varchar(15) not null default '',
+zoning varchar(30) not null default '',
+postal_code varchar(20) not null default '',
+permitted_land_use varchar(256) not null default '',
+access_to_property varchar(256) not null default '',
+type varchar(256) not null default '',
+sp_lp_ratio numeric(16,2) not null default '0.0',
+sold_price_per_sqft numeric (16,2) not null default '0.0',
+sold_price numeric (16,2) not null default '0.0',
+list_price numeric (16,2) not null default '0.0',
+frontage_feet numeric (16,2) not null default '0.0',
+
+pic_count integer not null default '0',
+days_to_sold integer not null default '0',
+tot_bedrooms integer not null default '0',
+year_built integer not null default '0',
+lot_sz_sqft integer not null default '0',
+tot_baths integer not null default '0',
+		
+sold_date date not null default '1166-12-24',
+list_date  date not null default '1166-12-24'
+)
+
+alter table para_listing_sold add constraint unique_sold_mls UNIQUE (mls)
+
+
+CREATE ROLE readaccess;
+GRANT USAGE ON SCHEMA public TO readaccess;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO readaccess;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readaccess;
+CREATE USER giselleh WITH PASSWORD 'Royalty321!';
+GRANT readaccess TO giselleh;
+
+
+
+
+
+
+
+
+select para_listing.mls, para_listing.address,  
+CASE WHEN para_listing_sold.sold_price is null  
+THEN '0.0' ELSE para_listing_sold.sold_price END 
+AS sold_price
+from para_listing 
+left join para_listing_sold on para_listing.mls=para_listing_sold.mls limit 10
+
+
+select * from para_listing_sold limit 10
+
+
+
+
+
+select para_listing_sold.mls, para_listing_sold.prop_type, para_listing_sold.address, para_listing_sold.area, 
+para_listing_sold.city, 
+para_listing_sold.type_of_dwelling, para_listing_sold.sp_lp_ratio, para_listing_sold.sold_price_per_sqft, 
+para_listing_sold.sold_price, para_listing_sold.list_price, 
+para_listing_sold.days_to_sold,
+para_listing_sold.tot_bedrooms, para_listing_sold.year_built, para_listing_sold.lot_sz_sqft, 
+para_listing_sold.sold_date, para_listing_sold.list_date,
+class_, Confirm_Sold_date, title_to_land, sp_olp_ratio
+
+from
+para_listing_sold limit 100
+
+
+select mls, address, 
+alter table para_listing_sold add lnd boolean not null default 'false' 
+alter table para_listing_sold add ths boolean not null default 'false' 
+alter table para_listing_sold add sfh  boolean not null default 'false'
+alter table para_listing_sold add apt boolean not null default 'false' 
+alter table para_listing_sold add  rrn    boolean not null default 'false' 
+alter table para_listing_sold add psl boolean not null default 'false' 
+alter table para_listing_sold add sfd boolean not null default 'false' 
+alter table para_listing_sold add ret boolean not null default 'false' 
+alter table para_listing_sold add ofw boolean not null default 'false'  
+alter table para_listing_sold add bfs boolean not null default 'false' 
+alter table para_listing_sold add cls boolean not null default 'false'  
+alter table para_listing_sold add mfd boolean not null default 'false'  
+alter table para_listing_sold add mfb boolean not null default 'false' 
+alter table para_listing_sold add hsc boolean not null default 'false'  
+
+from para_listing limit 10
+
+
+
+
+
+
+
+
+update para_listing set area ='West Vancouver' where sub_area in ('Altamont','Ambleside','Bayridge','British Properties','Canterbury WV','Caulfeild','Cedardale','Chartwell','Chelsea Park','Cypress','Cypress Park Estates','Deer Ridge WV','Dundarave','Eagle Harbour','Eagleridge','Furry Creek','Gleneagles','Glenmore','Horseshoe Bay WV','Howe Sound','Lions Bay','Olde Caulfeild','Panorama Village','Park Royal','Queens','Rockridge','Sandy Cove','Sentinel Hill','Upper Caulfeild','West Bay','Westhill','Westmount WV','Whitby Estates','Whytecliff') and area in ('')
+update para_listing set area ='Burnaby North' where sub_area in ('Brentwood Park','Capitol Hill BN','Cariboo','Central BN','Forest Hills BN','Government Road','Montecito','Oakdale','Parkcrest','Simon Fraser Hills','Simon Fraser Univer.','Sperling-Duthie','Sullivan Heights','Vancouver Heights','Westridge BN','Willingdon Heights') and area in ('')
+update para_listing set area ='Port Coquitlam' where sub_area in ('Birchland Manor','Central Pt Coquitlam','Citadel PQ','Glenwood PQ','Lincoln Park PQ','Lower Mary Hill','Mary Hill','Oxford Heights','Riverwood','Woodland Acres PQ') and area in ('')
+update para_listing set area ='Burnaby South' where sub_area in ('Big Bend','Buckingham Heights','Burnaby Hospital','Burnaby Lake','Central Park BS','Deer Lake','Deer Lake Place','Forest Glen BS','Garden Village','Greentree Village','Highgate','Metrotown','Oaklands','South Slope','Suncrest','Upper Deer Lake') and area in ('')
+update para_listing set area ='Whistler' where sub_area in ('Alpine Meadows','Alta Vista','Bayshores','Benchlands','Black Tusk - Pinecrest','Blueberry Hill','Brio','Cheakamus Crossing','Emerald Estates','Green Lake Estates','Nesters','Nordic','Rainbow','Spring Creek','Spruce Grove','WedgeWoods','Westside','Whistler Cay Estates','Whistler Cay Heights','Whistler Creek','Whistler Village','White Gold') and area in ('')
+update para_listing set area ='Port Moody' where sub_area in ('Anmore','Barber Street','Belcarra','College Park PM','Glenayre','Heritage Mountain','Heritage Woods PM','North Shore Pt Moody','Port Moody Centre') and area in ('')
+update para_listing set area ='Rosedale' where sub_area in ('Rosedale Popkum') and area in ('')
+update para_listing set area ='Sunshine Coast' where sub_area in ('Gambier Island','Gibsons & Area','Halfmn Bay Secret Cv Redroofs','Keats Island','Nelson Island','Pender Harbour Egmont','Roberts Creek','Sechelt District') and area in ('')
+update para_listing set area ='Langley' where sub_area in ('Aldergrove Langley','Brookswood Langley','Campbell Valley','County Line Glen Valley','Fort Langley','Langley City','Murrayville','Otter District','Salmon River','Walnut Grove','Willoughby Heights') and area in ('')
+update para_listing set area ='Coquitlam' where sub_area in ('Burke Mountain','Canyon Springs','Cape Horn','Central Coquitlam','Chineside','Coquitlam East','Coquitlam West','Eagle Ridge CQ','Harbour Chines','Harbour Place','Hockaday','Maillardville','Meadow Brook','New Horizons','North Coquitlam','Park Ridge Estates','Ranch Park','River Springs','Scott Creek','Summitt View','Upper Eagle Ridge','Westwood Plateau') and area in ('')
+update para_listing set area ='Harrison Mills / Mt Woodside' where sub_area in ('Mt Woodside') and area in ('')
+update para_listing set area ='Maple Ridge' where sub_area in ('Albion','Cottonwood MR','East Central','North Maple Ridge','Northeast','Northwest Maple Ridge','Silver Valley','Southwest Maple Ridge','Thornhill MR','Websters Corners','West Central','Whonnock') and area in ('')
+update para_listing set area ='Pitt Meadows' where sub_area in ('Central Meadows','Mid Meadows','North Meadows PI','South Meadows','West Meadows') and area in ('')
+update para_listing set area ='South Surrey White Rock' where sub_area in ('Crescent Bch Ocean Pk.','Elgin Chantrell','Grandview Surrey','Hazelmere','King George Corridor','Morgan Creek','Pacific Douglas','Sunnyside Park Surrey','White Rock') and area in ('')
+update para_listing set area ='Bowen Island' where sub_area in ('Bowen Island') and area in ('')
+update para_listing set area ='North Surrey' where sub_area in ('Bolivar Heights','Bridgeview','Cedar Hills','Fraser Heights','Guildford','Port Kells','Royal Heights','Whalley') and area in ('')
+update para_listing set area ='Chilliwack' where sub_area in ('Chilliwack E Young-Yale','Chilliwack Mountain','Chilliwack N Yale-Well','Chilliwack W Young-Well','East Chilliwack','Eastern Hillsides','Fairfield Island','Little Mountain') and area in ('')
+update para_listing set area ='N. Delta' where sub_area in ('Annieville','Nordel','Scottsdale','Sunshine Hills Woods') and area in ('')
+update para_listing set area ='Mission' where sub_area in ('Dewdney Deroche','Durieu','Hatzic','Hemlock','Lake Errock','Mission BC','Mission-West','Stave Falls','Steelhead') and area in ('')
+update para_listing set area ='Pemberton' where sub_area in ('Birken','D'Arcy','Devine','Pemberton','Pemberton Meadows','Poole Creek','Walkerville Estates') and area in ('')
+update para_listing set area ='Abbotsford' where sub_area in ('Abbotsford East','Abbotsford West','Aberdeen','Bradner','Central Abbotsford','Matsqui','Poplar','Sumas Mountain','Sumas Prairie') and area in ('')
+update para_listing set area ='Islands-Van. & Gulf' where sub_area in ('Galiano Island','Islands Other','Mayne Island','Passage Island','Pender Island','Salt Spring Island') and area in ('')
+update para_listing set area ='Tsawwassen' where sub_area in ('Beach Grove','Boundary Beach','Cliff Drive','English Bluff','Pebble Hill','Tsawwassen Central','Tsawwassen East') and area in ('')
+update para_listing set area ='Sardis' where sub_area in ('Chilliwack River Valley','Greendale Chilliwack','Promontory','Ryder Lake','Sardis East Vedder Rd','Sardis West Vedder Rd','Vedder S Watson-Promontory') and area in ('')
+update para_listing set area ='Agassiz' where sub_area in ('Agassiz') and area in ('')
+update para_listing set area ='Squamish' where sub_area in ('Brackendale','Brennan Center','Britannia Beach','Dentville','Downtown SQ','Garibaldi Estates','Garibaldi Highlands','Hospital Hill','Northyards','Paradise Valley','Plateau','Squamish Rural','Tantalus','University Highlands','Upper Squamish','Valleycliffe') and area in ('')
+update para_listing set area ='Out of Town' where sub_area in ('Out of Town') and area in ('')
+update para_listing set area ='North Vancouver' where sub_area in ('Blueridge NV','Boulevard','Braemar','Calverhall','Canyon Heights NV','Capilano NV','Central Lonsdale','Deep Cove','Delbrook','Dollarton','Edgemont','Forest Hills NV','Grouse Woods','Hamilton','Hamilton Heights','Indian Arm','Indian River','Lower Lonsdale','Lynn Valley','Lynnmour','Norgate','Northlands','Pemberton Heights','Pemberton NV','Princess Park','Queensbury','Roche Point','Seymour NV','Tempe','Upper Delbrook','Upper Lonsdale','Westlynn','Westlynn Terrace','Windsor Park NV','Woodlands-Sunshine-Cascade') and area in ('')
+update para_listing set area ='Vancouver West' where sub_area in ('Arbutus','Cambie','Coal Harbour','Downtown VW','Dunbar','Fairview VW','False Creek','Kerrisdale','Kitsilano','MacKenzie Heights','Marpole','Mount Pleasant VW','Oakridge VW','Point Grey','Quilchena','S.W. Marine','Shaughnessy','South Cambie','South Granville','Southlands','University VW','West End VW','Yaletown') and area in ('')
+update para_listing set area ='Burnaby East' where sub_area in ('East Burnaby','Edmonds BE','The Crest') and area in ('')
+update para_listing set area ='Vancouver East' where sub_area in ('Champlain Heights','Collingwood VE','Downtown VE','Fraser VE','Fraserview VE','Grandview VE','Hastings','Hastings East','Killarney VE','Knight','Main','Mount Pleasant VE','Renfrew Heights','Renfrew VE','South Vancouver','Victoria VE') and area in ('')
+update para_listing set area ='Harrison Hot Springs' where sub_area in ('Harrison Hot Springs') and area in ('')
+update para_listing set area ='Cultus Lake' where sub_area in ('Columbia Valley','Cultus Lake','Lindell Beach') and area in ('')
+update para_listing set area ='New Westminster' where sub_area in ('Connaught Heights','Downtown NW','Fraserview NW','GlenBrooke North','Moody Park','Quay','Queens Park','Queensborough','Sapperton','The Heights NW','Uptown NW','West End NW') and area in ('')
+update para_listing set area ='Ladner' where sub_area in ('Delta Manor','East Delta','Hawthorne','Holly','Ladner Elementary','Ladner Rural','Neilsen Grove','Port Guichon','Westham Island') and area in ('')
+update para_listing set area ='Yarrow' where sub_area in ('Majuba Hill','Yarrow') and area in ('')
+update para_listing set area ='Cloverdale' where sub_area in ('Clayton','Cloverdale BC','Serpentine') and area in ('')
+update para_listing set area ='Surrey' where sub_area in ('Bear Creek Green Timbers','East Newton','Fleetwood Tynehead','Panorama Ridge','Queen Mary Park Surrey','Sullivan Station','West Newton') and area in ('')
+update para_listing set area ='Hope' where sub_area in ('Boston Bar - Lytton','Hope Center','Hope Kawkawa Lake','Hope Laidlaw','Hope Silver Creek','Hope Sunshine Valley','Yale') and area in ('')
+update para_listing set area ='Richmond' where sub_area in ('Boyd Park','Bridgeport RI','Brighouse','Brighouse South','Broadmoor','East Cambie','East Richmond','Garden City','Gilmore','Granville','Hamilton RI','Ironwood','Lackner','McLennan','McLennan North','McNair','Quilchena RI','Riverdale RI','Saunders','Sea Island','Seafair','South Arm','Steveston North','Steveston South','Steveston Village','Terra Nova','West Cambie','Westwind','Woodwards') and area in ('')
+update para_listing set area ='FVREB Out of Town' where sub_area in ('FVREB Out of Town') and area in ('')
